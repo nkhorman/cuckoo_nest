@@ -134,12 +134,10 @@ int main(int argc, char* argv[])
     hal->display = screen.get();
     hal->inputs = inputs.get();
     hal->backlight = backlight.get();
-
-    //return 0;
-    
+        
     integration_container->LoadIntegrationsFromConfig(config_file);
     screen_manager->LoadScreensFromConfig(config_file);
-    screen_manager->GoToNextScreen(1);
+    screen_manager->GoToNextScreen("initial");
 
     // Set up input event callback
     inputs->set_callback(handle_input_event);
@@ -248,15 +246,11 @@ static void setup_logging()
 void handle_input_event(const InputDeviceType device_type, const struct input_event &event)
 {
     if (device_type == InputDeviceType::ROTARY && event.type == 0 && event.code == 0)
-    {
-        // Ignore 'end of event' markers from rotary encoder
-        return;
-    }
+        return; // Ignore 'end of event' markers from rotary encoder
 
     LOG_DEBUG_STREAM("Main: Received input event - type: " << event.type << ", code: " << event.code << ", value: " << event.value);
 
-    // Keep the screen bright on any input
-    backlight->Activate();
+    backlight->Activate(); // Keep the screen bright on any input
 
     std::lock_guard<std::mutex> lock(input_event_queue_mutex);
     input_event_queue.push(InputEvent(device_type, event));
@@ -265,10 +259,7 @@ void handle_input_event(const InputDeviceType device_type, const struct input_ev
 void ProximityCallback(int value)
 {
     if (value >= PROXIMITY_THRESHOLD)
-    {
-        // PIR proximity should keep the backlight active
-        backlight->Activate();
-    }
+        backlight->Activate(); // PIR proximity should keep the backlight active
 }
 
 // Load HAL configuration from JSON file with sensible defaults

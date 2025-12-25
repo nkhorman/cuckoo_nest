@@ -8,8 +8,10 @@
 class HomeAssistantDimmer : public IntegrationDimmerBase
 {
 public:
-    HomeAssistantDimmer(const HomeAssistantCreds &creds, const std::string &entity_id) : creds_(creds),
-                                                                                         entityId_(entity_id), brightness_(-1)
+    HomeAssistantDimmer(const HomeAssistantCreds &creds, const std::string &entity_id)
+        : creds_(creds)
+        , entityId_(entity_id)
+        , brightness_(-1)
     {
     }
 

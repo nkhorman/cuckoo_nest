@@ -7,15 +7,6 @@
 #define PI 3.14159265358979323846
 #endif
 
-AnalogClockScreen::AnalogClockScreen(HAL *hal,
-        ScreenManager* screenManager) : 
-    ScreenBase(),
-    hal_(hal),
-    display_(hal->display),
-    screenManager_(screenManager)   
-{
-}
-
 AnalogClockScreen::~AnalogClockScreen()
 {
     if (clock_timer) {
@@ -53,24 +44,17 @@ void AnalogClockScreen::handle_input_event(const InputDeviceType device_type, co
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
     {
         if (hal_ != nullptr && hal_->beeper != nullptr)
-        {
             hal_->beeper->play(100);
-        }   
         
-        // Move to the next color
-        //currentColorIndex = (currentColorIndex + 1) % color_count;
-
-        if (nextScreenId_ != -1)
+        if (GetNextScreenId() != "")
         {
             lv_timer_delete(clock_timer);
             clock_timer = nullptr;
             initialized_ = false;
-            screenManager_->GoToNextScreen(nextScreenId_);
+            screenManager_->GoToNextScreen(GetNextScreenId());
         }
         else
-        {
-            LOG_WARN_STREAM("Next screen is null!");
-        }
+            screenManager_->GoToPreviousScreen();
     }
 }
 

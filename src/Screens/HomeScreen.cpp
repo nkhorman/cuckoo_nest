@@ -14,23 +14,19 @@ static int color_count = sizeof(colors) / sizeof(colors[0]);
 
 void HomeScreen::Render()
 {
-    if (display_ == nullptr) {
+    if (display_ == nullptr)
         return;
-    }
 
     display_->SetBackgroundColor(colors[currentColorIndex]);
-
-    //display_->DrawLine(0, 160, 320, 160, SCREEN_COLOR_WHITE);
     
     // Display text using the bitmap font
     uint32_t text_color = SCREEN_COLOR_WHITE;
-    if (colors[currentColorIndex] == SCREEN_COLOR_WHITE) {
+    if (colors[currentColorIndex] == SCREEN_COLOR_WHITE)
         text_color = SCREEN_COLOR_BLACK; // Use black text on white background
-    }
 
     // get current time
     time_t now = time(0);
-    display_->DrawText(60, -40, "Home", SCREEN_COLOR_WHITE, Font::FONT_H1);
+	display_->DrawText(60, -40, GetName(), SCREEN_COLOR_WHITE, Font::FONT_H1);
     display_->DrawText(40, 0, TimeToString(now), text_color, Font::FONT_H1);
 
     display_->DrawText(0, 60, GetTemperatureString(), SCREEN_COLOR_RED, Font::FONT_H2);
@@ -47,9 +43,8 @@ std::string HomeScreen::TimeToString(time_t time)
 
 std::string HomeScreen::GetTemperatureString()
 {
-    if (backplateComms_ == nullptr) {
+    if (backplateComms_ == nullptr)
         return "N/A";
-    }
 
     char buffer[16];
     snprintf(buffer, sizeof(buffer), "%.2f C", backplateComms_->GetCurrentTemperatureC());
@@ -58,9 +53,8 @@ std::string HomeScreen::GetTemperatureString()
 
 std::string HomeScreen::GetHumidityString()
 {
-    if (backplateComms_ == nullptr) {
+    if (backplateComms_ == nullptr)
         return "N/A";
-    }
     
     char buffer[16];
     snprintf(buffer, sizeof(buffer), "%.2f %%", backplateComms_->GetCurrentHumidityPercent());
@@ -72,20 +66,11 @@ void HomeScreen::handle_input_event(const InputDeviceType device_type, const str
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
     {
         if (beeper_ != nullptr)
-        {
             beeper_->play(100);
-        }   
         
-        // Move to the next color
-        //currentColorIndex = (currentColorIndex + 1) % color_count;
-
-        if (nextScreenId_ != -1)
-        {
-            screenManager_->GoToNextScreen(nextScreenId_);
-        }
+        if (GetNextScreenId() != "")
+            screenManager_->GoToNextScreen(GetNextScreenId());
         else
-        {
             LOG_WARN_STREAM("Next screen is null!");
-        }
     }
 }

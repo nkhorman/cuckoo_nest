@@ -27,10 +27,11 @@ void Beeper::play(int duration_ms)
     memset(&beep_start, 0, sizeof(beep_start));
     beep_start.type = EV_SND;
     beep_start.code = SND_BELL;
-    beep_start.value = 1000;
+    beep_start.value = 3;
     write(fd, &beep_start, sizeof(beep_start));
 
-    
+    duration_ms = 5;
+
     usleep(duration_ms * 1000); // Beep duration 200 ms
     
     struct input_event beep_stop;

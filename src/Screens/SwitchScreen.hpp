@@ -9,36 +9,29 @@ class SwitchScreen : public ScreenBase
 {
 public:
     SwitchScreen(
-        HAL* hal,
-        ScreenManager* screenManager) : 
-        ScreenBase(), 
-        screenManager_(screenManager),
-        display_(hal->display), 
-        beeper_(hal->beeper),
-        rotaryAccumulator(0),
-        switchState(SwitchState::OFF),
-        selectedOption(SelectedOption::TOGGLE)
-    {}
+        HAL* hal
+        , ScreenManager* screenManager
+        , const json11::Json &jsonConfig
+    )
+        : ScreenBase(jsonConfig)
+        , screenManager_(screenManager)
+        , display_(hal->display)
+        , beeper_(hal->beeper)
+        , rotaryAccumulator(0)
+        , switchState(SwitchState::OFF)
+        , selectedOption(SelectedOption::TOGGLE)
+	{
+        if(GetName() == "")
+            SetName("Switch");
+        // if no integration "id" attribute is provided, use our "name" attribute
+        if(GetIntegrationId() == "")
+            SetIntegrationId(GetName());
+	}
 
     virtual ~SwitchScreen() = default;
 
     void Render() override;
     void handle_input_event(const InputDeviceType device_type, const struct input_event &event) override;
-    
-    const int GetIntegrationId() const {
-        return integrationId_;
-    }
-    void SetIntegrationId(int id) {
-        integrationId_ = id;
-    }
-
-    const std::string& GetName() const {
-        return name_;
-    }
-    void SetName(const std::string& name) {
-        name_ = name;
-    }
-
 private:
 
     enum class SwitchState {
@@ -55,8 +48,4 @@ private:
     Beeper* beeper_;
     IDisplay* display_;
     int rotaryAccumulator;
-    int integrationId_;
-    std::string name_;
-
-
 };

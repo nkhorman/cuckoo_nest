@@ -9,25 +9,29 @@
 class AnalogClockScreen : public ScreenBase
 {
 public:
-    AnalogClockScreen(HAL *hal,
-        ScreenManager* screenManager);
+    AnalogClockScreen(
+            HAL* hal
+            , ScreenManager* screenManager
+            , const json11::Json &jsonConfig
+        )
+            : ScreenBase(jsonConfig)
+            , hal_(hal)
+            , display_(hal->display)
+            , screenManager_(screenManager)   
+	{
+        if(GetName() == "")
+            SetName("Analog Clock");
+	}
+
     virtual ~AnalogClockScreen();
 
     void Render() override;
     void handle_input_event(const InputDeviceType device_type, const struct input_event &event) override;
-    int GetNextScreenId() const {
-        return nextScreenId_;
-    }
-    void SetNextScreenId(int id) {
-        nextScreenId_ = id;
-    }
 
 private:
     HAL *hal_;
     IDisplay *display_;
     ScreenManager* screenManager_;
-
-    int nextScreenId_ = -1;
     
     bool initialized_ = false;
     

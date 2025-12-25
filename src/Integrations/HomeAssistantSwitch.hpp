@@ -8,10 +8,10 @@
 class HomeAssistantSwitch : public IntegrationSwitchBase
 {
 public:
-    HomeAssistantSwitch(const HomeAssistantCreds &creds, const std::string &entity_id) : creds_(creds),
-                                                                                         entityId_(entity_id)
-    {
-    }
+    HomeAssistantSwitch(const HomeAssistantCreds &creds, const std::string &entity_id)
+        : creds_(creds)
+        , entityId_(entity_id)
+    {}
 
     virtual ~HomeAssistantSwitch() = default;
 

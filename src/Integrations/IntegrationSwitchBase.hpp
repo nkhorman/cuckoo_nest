@@ -15,13 +15,13 @@ class IntegrationSwitchBase
         virtual void TurnOn() = 0;
         virtual void TurnOff() = 0;
 
-        int GetId() const { return id; }
-        void SetId(int newId) { id = newId; }
+        inline std::string const &GetId() const { return id; }
+        inline void SetId(std::string const &newId) { id = newId; }
 
-        std::string GetName() const { return name; }
-        void SetName(const std::string& newName) { name = newName; }
+        inline std::string GetName() const { return name; }
+        inline void SetName(const std::string& newName) { name = newName; }
 
     private:
-        int id;
+        std::string id;
         std::string name;
 };

@@ -9,15 +9,20 @@ class HomeScreen : public ScreenBase
 {
 public:
     HomeScreen(
-        HAL *hal, 
-        ScreenManager *screenManager,
-        BackplateComms *backplateComms) : 
-        ScreenBase(), 
-        screenManager_(screenManager),
-        display_(hal->display),
-        beeper_(hal->beeper),
-        nextScreen_(nullptr),
-        backplateComms_(backplateComms) {}
+        HAL *hal
+        , ScreenManager *screenManager
+        , const json11::Json &jsonConfig
+        , BackplateComms *backplateComms
+    )
+        : ScreenBase(jsonConfig)
+        , screenManager_(screenManager)
+        , display_(hal->display)
+        , beeper_(hal->beeper)
+        , backplateComms_(backplateComms)
+	{
+        if(GetName() == "")
+            SetName("Home");
+	}
 
     virtual ~HomeScreen() = default;
 
@@ -26,15 +31,6 @@ public:
     std::string GetTemperatureString();
     std::string GetHumidityString();
     void handle_input_event(const InputDeviceType device_type, const struct input_event &event) override;
-    void SetNextScreen(ScreenBase* screen) {
-        nextScreen_ = screen;
-    }
-    int GetNextScreenId() const {
-        return nextScreenId_;
-    }
-    void SetNextScreenId(int id) {
-        nextScreenId_ = id;
-    }
 
 private:
     int currentColorIndex = 0;
@@ -42,9 +38,4 @@ private:
     Beeper *beeper_;
     ScreenManager *screenManager_;
     BackplateComms *backplateComms_;
-
-    int nextScreenId_;
-    
-    //TODO: Remove this 
-    ScreenBase* nextScreen_;
 };

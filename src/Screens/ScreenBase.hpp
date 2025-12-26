@@ -1,8 +1,9 @@
 #pragma once
 #include "../HAL/InputDevices.hxx"
-#include "../HAL/InputEvent.hpp"
 #include <string>
 #include <json11.hpp>
+
+class ScreenManager;
 
 enum screen_color
 {
@@ -16,8 +17,8 @@ enum screen_color
 class ScreenBase
 {
 public:
-    ScreenBase() {};
-    ScreenBase(const json11::Json &jsonConfig)
+    ScreenBase(ScreenManager* screenManager, const json11::Json &jsonConfig)
+    : screenManager_(screenManager)
     {
         std::vector<std::string> attribNames =
             { "name", "id", "nextScreenId","integrationId" };
@@ -52,5 +53,7 @@ public:
     void SetNextScreenId(std::string const &id) { attribs_["nextScreenId"] = id; }
 
 protected:
+    ScreenManager* screenManager_ = nullptr;
+private:
     mutable std::map<std::string, std::string> attribs_;
 };

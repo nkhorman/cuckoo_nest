@@ -54,7 +54,7 @@ bool Display::Initialize(bool emulate)
             return false;
         }
 
-        uint bufsize = 400 * 1024; //res_w_ * res_h_ * 10 * BYTES_PER_PIXEL;
+        uint bufsize = (res_w_ * res_h_ * 4); //res_w_ * res_h_ * BYTES_PER_PIXEL;
         working_buffer1 = malloc(bufsize);
         working_buffer2 = malloc(bufsize);
         lv_display_set_buffers(disp, working_buffer1, working_buffer2, bufsize, LV_DISPLAY_RENDER_MODE_PARTIAL);

@@ -193,10 +193,16 @@ void MenuScreen::handle_input_event(const InputDeviceType device_type, const str
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
     {
         if (beeper_ != nullptr)
-            beeper_->play(100);
+            beeper_->click();
 
         if (menuSelectedIndex < 0 || menuSelectedIndex >= static_cast<int>(menuItems.size()))
             return; // Invalid index
+
+        if (screenManager_ == nullptr)
+        {
+            LOG_ERROR_STREAM("MenuScreen: screenManager is null!");
+            return;
+        }
 
         if (menuItems[menuSelectedIndex].IsPrevious())
         {
@@ -206,12 +212,6 @@ void MenuScreen::handle_input_event(const InputDeviceType device_type, const str
         }
 
         MenuItem &selectedItem = menuItems[menuSelectedIndex];
-
-        if (screenManager_ == nullptr)
-        {
-            LOG_ERROR_STREAM("MenuScreen: screenManager_ is null!");
-            return;
-        }
 
 		LOG_DEBUG_STREAM("MenuScreen: selecting " << selectedItem.GetNextScreenId() << " / \"" << selectedItem.GetName() << "\"");
         screenManager_->GoToNextScreen(selectedItem.GetNextScreenId()); 

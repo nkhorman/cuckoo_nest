@@ -46,7 +46,7 @@ void SwitchScreen::handle_input_event(const InputDeviceType device_type, const s
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
     {
         if (beeper_ != nullptr)
-            beeper_->play(100);
+            beeper_->click();
 
         if (selectedOption == SelectedOption::TOGGLE)
         {

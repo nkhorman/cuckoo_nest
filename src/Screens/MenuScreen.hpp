@@ -14,19 +14,17 @@ class MenuScreen : public ScreenBase
 {
 public:
     MenuScreen(
-        HAL *hal
-        , ScreenManager* screenManager
+        ScreenManager* screenManager
         , const json11::Json &jsonConfig
     )
-        : ScreenBase(jsonConfig)
-        , screenManager_(screenManager)
-        , display_(hal->display)
-        , beeper_(hal->beeper)
+        : ScreenBase(screenManager, jsonConfig)
         , menuSelectedIndex(0)
 		, rotaryAccumulator(0)
 	{
         if(GetName() == "")
             SetName("Menu");
+        beeper_ = screenManager_->HalBeeper();
+        display_ = screenManager_->HalDisplay();
 	}
 
     virtual ~MenuScreen() = default;
@@ -40,7 +38,6 @@ public:
     lv_obj_t* CreateIcon(int index, int ix, int iy, bool selected, int iconSize);
 
 private:
-    ScreenManager* screenManager_;
     Beeper* beeper_;
     IDisplay* display_;
     int menuSelectedIndex;

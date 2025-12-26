@@ -28,8 +28,8 @@ void DimmerScreen::handle_input_event(const InputDeviceType device_type, const s
 
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
     {
-        if (beeper_ != nullptr)
-            beeper_->play(100);
+        if(beeper_ != nullptr)
+            beeper_->click();
         
         auto dimmer = screenManager_->GetIntegrationContainer()->GetDimmerById(GetIntegrationId());
 

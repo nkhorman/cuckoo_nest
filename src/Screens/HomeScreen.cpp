@@ -65,12 +65,12 @@ void HomeScreen::handle_input_event(const InputDeviceType device_type, const str
 {
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
     {
-        if (beeper_ != nullptr)
-            beeper_->play(100);
+        if(beeper_ != nullptr)
+            beeper_->click();
         
         if (GetNextScreenId() != "")
             screenManager_->GoToNextScreen(GetNextScreenId());
         else
-            LOG_WARN_STREAM("Next screen is null!");
+            LOG_WARN_STREAM("Next screen is not defined!");
     }
 }

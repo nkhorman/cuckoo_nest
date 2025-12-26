@@ -1,11 +1,11 @@
-#include "ScreenManager.hpp"
 #include <fstream>
 #include <sstream>
 #include <json11.hpp>
-#include "logger.h"
 #include <algorithm>
 #include <stdio.h>
 
+#include "logger.h"
+#include "ScreenManager.hpp"
 #include "HAL/HAL.hpp"
 
 #include "Screens/HomeScreen.hpp"
@@ -83,15 +83,15 @@ void ScreenManager::LoadScreensFromConfig(const std::string& config_path)
         transform(type.begin(), type.end(), type.begin(), ::tolower);
 
         if (type == "home") 
-            AddScreen(std::unique_ptr<ScreenBase>(new HomeScreen(hal_, this, screen, backplateComms_)));
+            AddScreen(std::unique_ptr<ScreenBase>(new HomeScreen(this, screen)));
         else if (type == "menu") 
             BuildMenuScreenFromJSON(screen);
         else if (type == "switch") 
-            AddScreen(std::unique_ptr<ScreenBase>(new SwitchScreen(hal_, this, screen)));
+            AddScreen(std::unique_ptr<ScreenBase>(new SwitchScreen(this, screen)));
         else if (type == "dimmer") 
-            AddScreen(std::unique_ptr<ScreenBase>(new DimmerScreen(hal_, this, screen)));
+            AddScreen(std::unique_ptr<ScreenBase>(new DimmerScreen(this, screen)));
         else if (type == "analogclock") 
-            AddScreen(std::unique_ptr<ScreenBase>(new AnalogClockScreen(hal_, this, screen)));
+            AddScreen(std::unique_ptr<ScreenBase>(new AnalogClockScreen(this, screen)));
         else 
             LOG_ERROR_STREAM(
                 "ScreenManager: Unknown screen type '" << type
@@ -142,7 +142,7 @@ void ScreenManager::BuildMenuScreenFromJSON(const json11::Json &screenJson)
         {"down", MenuIcon::DOWN},
     };
 
-    auto screen = new MenuScreen(hal_, this, screenJson);
+    auto screen = new MenuScreen(this, screenJson);
 
     // if there is a "nextScreen", add a "Previous"
     std::string screenNext = screen->GetNextScreenId();

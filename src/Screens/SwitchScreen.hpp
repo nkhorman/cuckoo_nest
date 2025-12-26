@@ -2,22 +2,15 @@
 
 #include "ScreenBase.hpp"
 #include "../ScreenManager.hpp"
-#include "../HAL/HAL.hpp"
-#include "../Integrations/IntegrationActionBase.hpp"
 
 class SwitchScreen : public ScreenBase
 {
 public:
     SwitchScreen(
-        HAL* hal
-        , ScreenManager* screenManager
+        ScreenManager* screenManager
         , const json11::Json &jsonConfig
     )
-        : ScreenBase(jsonConfig)
-        , screenManager_(screenManager)
-        , display_(hal->display)
-        , beeper_(hal->beeper)
-        , rotaryAccumulator(0)
+        : ScreenBase(screenManager, jsonConfig)
         , switchState(SwitchState::OFF)
         , selectedOption(SelectedOption::TOGGLE)
 	{
@@ -26,6 +19,9 @@ public:
         // if no integration "id" attribute is provided, use our "name" attribute
         if(GetIntegrationId() == "")
             SetIntegrationId(GetName());
+
+        beeper_ = screenManager_->HalBeeper();
+        display_ = screenManager_->HalDisplay();
 	}
 
     virtual ~SwitchScreen() = default;
@@ -44,8 +40,7 @@ private:
         BACK
     }selectedOption;
 
-    ScreenManager* screenManager_;
-    Beeper* beeper_;
-    IDisplay* display_;
-    int rotaryAccumulator;
+    Beeper* beeper_ = nullptr;
+    IDisplay* display_ = nullptr;
+    int rotaryAccumulator = 0;
 };

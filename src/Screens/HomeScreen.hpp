@@ -2,26 +2,21 @@
 
 #include "ScreenBase.hpp"
 #include "../ScreenManager.hpp"
-#include "../HAL/HAL.hpp"
-#include "../Backplate/BackplateComms.hpp"
 
 class HomeScreen : public ScreenBase
 {
 public:
     HomeScreen(
-        HAL *hal
-        , ScreenManager *screenManager
+        ScreenManager *screenManager
         , const json11::Json &jsonConfig
-        , BackplateComms *backplateComms
     )
-        : ScreenBase(jsonConfig)
-        , screenManager_(screenManager)
-        , display_(hal->display)
-        , beeper_(hal->beeper)
-        , backplateComms_(backplateComms)
+        : ScreenBase(screenManager, jsonConfig)
 	{
         if(GetName() == "")
             SetName("Home");
+        beeper_ = screenManager_->HalBeeper();
+        display_ = screenManager_->HalDisplay();
+        backplateComms_ = screenManager_->GetBackplaceComms();
 	}
 
     virtual ~HomeScreen() = default;
@@ -34,8 +29,7 @@ public:
 
 private:
     int currentColorIndex = 0;
-    IDisplay *display_;
-    Beeper *beeper_;
-    ScreenManager *screenManager_;
-    BackplateComms *backplateComms_;
+    Beeper* beeper_ = nullptr;
+    IDisplay* display_ = nullptr;
+    BackplateComms *backplateComms_ = nullptr;
 };

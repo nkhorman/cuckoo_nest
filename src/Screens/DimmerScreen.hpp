@@ -2,22 +2,18 @@
 
 #include "ScreenBase.hpp"
 #include "../ScreenManager.hpp"
-#include "../HAL/IDisplay.hpp"
-#include "../HAL/Beeper.hpp"
 
 class DimmerScreen : public ScreenBase
 {
 public:
     DimmerScreen(
-        HAL *hal
-        , ScreenManager* screenManager
+        ScreenManager* screenManager
         , const json11::Json &jsonConfig
     )
-        : ScreenBase(jsonConfig)
-        , screenManager_(screenManager)
-        , display_(hal->display)
-        , beeper_(hal->beeper)
+        : ScreenBase(screenManager, jsonConfig)
 	{
+        beeper_ = screenManager_->HalBeeper();
+        display_ = screenManager_->HalDisplay();
 		dimmerValue = 50 * DIMMER_STEP;
         if(GetName() == "")
             SetName("Dimmer");
@@ -33,9 +29,8 @@ public:
 
 
 private:
-    ScreenManager* screenManager_;
-    Beeper* beeper_;
-    IDisplay* display_;
+    Beeper* beeper_ = nullptr;
+    IDisplay* display_ = nullptr;
     int dimmerValue;
 
     const int DIMMER_STEP = 50; // step size for each rotary event

@@ -1,6 +1,14 @@
-#include <unistd.h>
-#include "HAL/InputEvent.hpp"
+#include <queue>
+#include <mutex>
+#include <memory>
+#include <fstream>
+#include <sstream>
+#include <json11.hpp>
 
+#include <ctype.h>
+#include <unistd.h>
+
+#include "HAL/InputEvent.hpp"
 #include "HAL/HAL.hpp"
 #include "HAL/Display.hpp"
 
@@ -13,14 +21,6 @@
 #include "Integrations/ActionHomeAssistantService.hpp"
 
 #include "logger.h"
-#include <queue>
-#include <mutex>
-#include <memory>
-#include <fstream>
-#include <sstream>
-#include <json11.hpp>
-
-#include <ctype.h>
 
 #include "lvgl/lvgl.h"
 

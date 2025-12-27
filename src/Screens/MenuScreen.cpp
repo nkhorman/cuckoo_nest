@@ -188,6 +188,8 @@ void MenuScreen::handle_input_event(const InputDeviceType device_type, const str
                 menuSelectedIndex = 0;
             rotaryAccumulator = 0;
         }
+
+        Render();
     }
 
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)

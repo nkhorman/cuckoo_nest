@@ -8,36 +8,26 @@
 #define PI 3.14159265358979323846
 #endif
 
-AnalogClockScreen::~AnalogClockScreen()
+void AnalogClockScreen::OnChangeFocus(bool focused)
 {
-    if (clock_timer) {
-        lv_timer_del(clock_timer);
-        clock_timer = nullptr;
+    if(focused)
+    {
+        display_->SetBackgroundColor(SCREEN_COLOR_BLACK); // Clears screen
+        CreateClockFace();
+        if (!clock_timer)
+        {
+            clock_timer = lv_timer_create(update_clock_cb, 250, this);
+            StartIntroAnimation();
+        }
     }
-}
-
-void AnalogClockScreen::Render()
-{
-    // Prevent re-initialization if already running.
-    // Note: In a full app with screen switching, this logic needs to handle "OnEnter" vs "OnUpdate".
-    // Since ScreenBase doesn't have OnEnter/Exit, and Render is called periodically,
-    // we use a flag. To support switching back, one would need to reset this flag.
-    if (initialized_) {
-        return;
+    else
+    {
+        if(clock_timer)
+        {
+            lv_timer_delete(clock_timer);
+            clock_timer = nullptr;
+        }
     }
-
-    LOG_INFO_STREAM("Initializing Analog Clock...");
-    display_->SetBackgroundColor(SCREEN_COLOR_BLACK); // Clears screen
-
-    CreateClockFace();
-
-    // Create timer for 60fps smooth updates (approx 16ms)
-    if (!clock_timer) {
-        clock_timer = lv_timer_create(update_clock_cb, 250, this);
-    }
-
-    StartIntroAnimation();
-    initialized_ = true;
 }
 
 void AnalogClockScreen::handle_input_event(const InputDeviceType device_type, const struct input_event &event)

@@ -173,7 +173,6 @@ int main(int argc, char* argv[])
                 auto event = input_event_queue.front();
                 input_event_queue.pop();
                 screen_manager->ProcessInputEvent(event.device_type, event.event);
-                screen_manager->RenderCurrentScreen();
             }
         }
 

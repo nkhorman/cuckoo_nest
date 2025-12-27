@@ -22,10 +22,10 @@ public:
             SetName("Analog Clock");
 	}
 
-    virtual ~AnalogClockScreen();
+    virtual ~AnalogClockScreen() = default;
 
-    void Render() override;
     void handle_input_event(const InputDeviceType device_type, const struct input_event &event) override;
+    void OnChangeFocus(bool focused) override;
 
 private:
     Beeper* beeper_ = nullptr;

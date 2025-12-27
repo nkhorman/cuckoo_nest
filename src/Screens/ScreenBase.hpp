@@ -1,7 +1,7 @@
 #pragma once
-#include "../HAL/InputDevices.hxx"
 #include <string>
 #include <json11.hpp>
+#include "../HAL/InputDevices.hxx"
 
 class ScreenManager;
 
@@ -34,10 +34,11 @@ public:
         if(jsonConfig["id"].is_null())
             SetId(GetName());
     }
-    virtual ~ScreenBase() = default;
+    virtual ~ScreenBase() { OnChangeFocus(false); };
 
-    virtual void Render() = 0;
+    virtual void Render() {};
     virtual void handle_input_event(const InputDeviceType device_type, const struct input_event& event) = 0;
+    virtual void OnChangeFocus(bool focused) { if(focused) Render(); };
 
     // These getters are safe, because the ctor ensures that there is an entry in attribs_
     inline const std::string &GetId() const { return attribs_["id"]; }

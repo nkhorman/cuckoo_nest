@@ -41,6 +41,7 @@ void SwitchScreen::handle_input_event(const InputDeviceType device_type, const s
             selectedOption = SelectedOption::TOGGLE;
             rotaryAccumulator = 0;
         }
+        Render();
     }
 
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
@@ -80,7 +81,7 @@ void SwitchScreen::handle_input_event(const InputDeviceType device_type, const s
                 LOG_INFO_STREAM("Switch \"" << GetName() << "\" turned OFF");
                 sw->TurnOff();
             }
-
+            Render();
         }
         else if (selectedOption == SelectedOption::BACK)
         {

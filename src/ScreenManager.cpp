@@ -23,9 +23,11 @@ void ScreenManager::GoToNextScreen(std::string const & id)
         return;
     }
 
+    if(current_screen_)
+        current_screen_->OnChangeFocus(false);
     current_screen_ = screen;
     screen_history_.push(current_screen_);
-    current_screen_->Render();
+    current_screen_->OnChangeFocus(true);
     LOG_INFO_STREAM("ScreenManager: Navigated to screen ID \"" << id << "\" / \"" << current_screen_->GetName() << "\"");
 }
 
@@ -33,18 +35,12 @@ void ScreenManager::GoToPreviousScreen()
 {
     if (!screen_history_.empty())
     {
+        if(current_screen_)
+            current_screen_->OnChangeFocus(false);
         screen_history_.pop();
         current_screen_ = screen_history_.top();
-        current_screen_->Render();
+        current_screen_->OnChangeFocus(true);
     }
-}
-
-void ScreenManager::RenderCurrentScreen()
-{
-    if (current_screen_ != nullptr)
-        current_screen_->Render();
-    else
-        LOG_ERROR_STREAM("ScreenManager: No current screen to render");
 }
 
 void ScreenManager::ProcessInputEvent(const InputDeviceType device_type, const struct input_event &event)

@@ -29,7 +29,6 @@ public:
     
     void GoToNextScreen(std::string const &id);
     void GoToPreviousScreen();
-    void RenderCurrentScreen();
     void ProcessInputEvent(const InputDeviceType device_type, const input_event &event);
 
     void LoadScreensFromConfig(const std::string &config_path);

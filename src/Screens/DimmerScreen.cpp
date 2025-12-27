@@ -1,5 +1,5 @@
-#include "DimmerScreen.hpp"
 #include <string>
+#include "DimmerScreen.hpp"
 
 
 void DimmerScreen::Render()
@@ -24,6 +24,7 @@ void DimmerScreen::handle_input_event(const InputDeviceType device_type, const s
 
         if (dimmerValue < MIN_DIMMER_VALUE)
             dimmerValue = MIN_DIMMER_VALUE;
+        Render();
     }
 
     if (device_type == InputDeviceType::BUTTON && event.type == EV_KEY && event.code == 't' && event.value == 1)
@@ -43,6 +44,5 @@ void DimmerScreen::handle_input_event(const InputDeviceType device_type, const s
             screenManager_->GoToNextScreen(GetNextScreenId());
         else
             screenManager_->GoToPreviousScreen();
-
     }
 }

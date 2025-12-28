@@ -16,32 +16,18 @@
         {
             "name": "Living Room Lights",
             "entityId": "light.living_room",
-            "type": "switch"
-        },
-        {
-            "name": "Dining Room Spot Lights",
-            "entityId": "switch.dining_room_spot_lights",
-            "type": "switch"
+            "type": "HomeAssistant"
         }
     ],
     "screens":[
         {
-            "name": "Home Screen",
+            "name": "Hallway",
             "type": "home",
-            "nextScreen": "Main Menu"
-        },
-        {
-            "name": "Main Menu",
-            "type": "menu",
-            "nextScreen": "Living Room Lights"
+            "id": "initial",
+            "nextScreenId": "Living Room Lights"
         },
         {
             "name": "Living Room Lights",
-            "type": "switch",
-            "nextScreen": "Dining Room Spot Lights"
-        },
-        {
-            "name": "Dining Room Spot Lights",
             "type": "switch"
         }
     ],

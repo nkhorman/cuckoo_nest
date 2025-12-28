@@ -34,7 +34,7 @@
             "name": "Home Screen",
             "type": "home",
             "id": "initial",
-            "nextScreen": "Main Menu"
+            "nextScreenId": "Main Menu"
         },
         {
             "name": "Main Menu",
@@ -42,15 +42,12 @@
             "menuItems": [
                 {
                     "name": "Garage Lights",
-                    "nextScreen": "Office External",
                     "icon": "light"
                 },{
                     "name": "Office External",
-                    "nextScreen": "Office Internal",
                     "icon": "fan"
                 },{
                     "name": "Office Internal",
-                    "nextScreen": "Tempature",
                     "icon": "breifcase"
                 },{
                     "name": "Temperature",

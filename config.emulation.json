@@ -26,58 +26,82 @@
     },
     "integrations": [
         {
+            "id": 1,
             "name": "Garage Lights",
             "entityId": "switch.garage_lights",
             "type": "HomeAssistant"
         },
         {
+            "id": 2,
             "name": "Office External",
             "entityId": "switch.office_external_lights",
             "type": "HomeAssistant"
         },
         {
+            "id": 3,
             "name": "Office Internal",
             "entityId": "switch.office_internal_lights",
             "type": "HomeAssistant"
         }
     ],
+    "firstScreen": 1,
     "screens":[
         {
             "name": "Home Screen",
             "type": "analogclock",
-            "id": "initial",
-            "nextScreen": "Main Menu"
+            "id": 1,
+            "nextScreen": 2
         },
         {
             "name": "Main Menu",
             "type": "menu",
+            "id": 2,
             "menuItems": [
                 {
                     "name": "Garage Lights",
+                    "nextScreen": 3,
                     "icon": "light"
                 },{
                     "name": "Office External",
+                    "nextScreen": 4,
                     "icon": "fan"
                 },{
                     "name": "Office Internal",
+                    "nextScreen": 5,
                     "icon": "breifcase"
                 },{
                     "name": "Temperature",
+                    "nextScreen": 6,
                     "icon": "temperature"
+                },
+                {
+                    "name": "no icon",
+                    "nextScreen": 7
                 }
             ]
         },
         {
             "name": "Garage Lights",
-            "type": "switch"
+            "type": "switch",
+            "id": 3,
+            "integrationId": 1
         },
         {
-            "name": "Office External",
-            "type": "switch"
+            "name": "External Lights",
+            "type": "switch",
+            "id": 4,
+            "integrationId": 2
         },
         {
-            "name": "Office Internal",
-            "type": "switch"
+            "name": "Internal Lights",
+            "type": "switch",
+            "id": 5,
+            "integrationId": 3
+        },
+		{
+            "name": "Temperature",
+            "type": "home",
+            "id": 6
         }
     ]
 }

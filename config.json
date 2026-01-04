@@ -19,16 +19,22 @@
             "type": "HomeAssistant"
         }
     ],
+    "firstScreen": "Hallway",
     "screens":[
         {
             "name": "Hallway",
             "type": "home",
-            "id": "initial",
             "nextScreen": "Living Room Lights"
         },
         {
             "name": "Living Room Lights",
-            "type": "switch"
+            "type": "dimmer",
+			"nextScreen": "External Lights"
+        },
+        {
+            "name": "External Lights",
+            "type": "switch",
+			"nextScreen": "Hallway"
         }
     ],
     "beeper": {

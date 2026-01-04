@@ -29,11 +29,11 @@
             "type": "HomeAssistant"
         }
     ],
+    "firstScreen": "Home Screen",
     "screens":[
         {
             "name": "Home Screen",
             "type": "home",
-            "id": "initial",
             "nextScreen": "Main Menu"
         },
         {
@@ -49,9 +49,6 @@
                 },{
                     "name": "Office Internal",
                     "icon": "breifcase"
-                },{
-                    "name": "Temperature",
-                    "icon": "temperature"
                 }
             ]
         },

@@ -21,8 +21,9 @@ void SwitchScreen::Render()
         buttonText += "Off";
 
     display_->DrawText(60, 0, buttonText, SCREEN_COLOR_WHITE, Font::FONT_H2);
-    
-    buttonText = (selectedOption == SelectedOption::BACK) ? "> Back" : "  Back";
+
+    std::string navText = (GetNextScreenId() != "" ? "Done" : "Back");
+    buttonText = (selectedOption == SelectedOption::BACK) ? "> " + navText : "  " + navText;
     display_->DrawText(60, 20, buttonText, SCREEN_COLOR_WHITE, Font::FONT_H2);
 }
 
@@ -108,7 +109,11 @@ void SwitchScreen::handle_input_event(const InputDeviceType device_type, const s
         else if (selectedOption == SelectedOption::BACK)
         {
             // Navigate back to the previous screen
-            screenManager_->GoToPreviousScreen();
+
+            if (GetNextScreenId() != "")
+                screenManager_->GoToNextScreen(GetNextScreenId());
+            else
+                screenManager_->GoToPreviousScreen();
             selectedOption = SelectedOption::TOGGLE; // Reset selection
         }
     }
